@@ -47,9 +47,9 @@ class LaravelLogController extends Controller
         $filtersActive = ($search !== '') || ($level !== 'ALL');
         $matchedEntries = $this->buildMatchedEntries($content, $search, $level, $contextSize, $filtersActive);
 
-        return view('laravel-log-viewer::index', [
-            'layout' => config('laravel-log-viewer.layout', 'backend.layouts.app'),
-            'heading' => config('laravel-log-viewer.heading', 'প্রোডাকশন লগ'),
+        return view('log-viewer::index', [
+            'layout' => config('log-viewer.layout', 'backend.layouts.app'),
+            'heading' => config('log-viewer.heading', 'প্রোডাকশন লগ'),
             'files' => $files,
             'selected_file' => $selected,
             'content' => $filteredContent,
@@ -109,7 +109,7 @@ class LaravelLogController extends Controller
     private function ensureAccess(): void
     {
         $user = Auth::user();
-        $authorize = config('laravel-log-viewer.authorize');
+        $authorize = config('log-viewer.authorize');
 
         if (is_callable($authorize) && !$authorize($user)) {
             abort(403, 'Unauthorized to view Laravel logs.');

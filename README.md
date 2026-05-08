@@ -1,38 +1,121 @@
-﻿# shaonmajumder/log-viewer
+# 🚀 Laravel Log Viewer
 
-A production-ready Laravel log viewer package with level highlighting, smart filtering, tail mode, inline context expansion, filtered download, and admin-safe access control.
+<p align="center">
+    <img src="https://img.shields.io/badge/Laravel-9%20%7C%2010%20%7C%2011-red?style=for-the-badge&logo=laravel" />
+    <img src="https://img.shields.io/badge/PHP-8%2B-blue?style=for-the-badge&logo=php" />
+    <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" />
+    <img src="https://img.shields.io/badge/Production-Ready-success?style=for-the-badge" />
+</p>
 
-## Features
+<p align="center">
+    🔥 Beautiful • Secure • Fast • Real-Time Friendly Laravel Log Viewer
+</p>
 
-- Admin-protected log viewer endpoint
-- Multi-pattern Laravel log file discovery
-- Safe file path handling (prevents path traversal)
-- Level-based highlighting (`ERROR`, `WARNING`, `INFO`)
-- Search + level filters
-- Tail mode (`No limit`, `100`, `300`, `500`, `1000`, `2000`)
-- Inline context expansion around matched lines
-  - `No context`, `±2`, `±5`, `±10`, `±20`
-  - Expanded order: before lines -> target line -> after lines
-- Target line visual emphasis in expanded mode
-- Filtered-view download
-- Auto-refresh controls and pause-at-scroll behavior in UI
+---
 
-## Compatibility
+# ✨ Features
 
-- PHP: `^8.0`
-- Laravel: `^9.0 | ^10.0 | ^11.0`
+## 🛡️ Security First
 
-## Installation
+- 🔐 Admin-protected routes
+- 🚫 Path traversal protection
+- 🧠 Custom authorization callback
+- 🧱 Middleware configurable
 
-### Option A: Packagist (recommended)
+---
+
+## 📄 Smart Log Discovery
+
+Automatically detects:
+
+- `laravel.log`
+- `laravel-YYYY-MM-DD.log`
+- rotated log files
+- multiple Laravel log patterns
+
+---
+
+## 🎨 Beautiful Log Highlighting
+
+Color-coded levels:
+
+| Level      | Highlight |
+| ---------- | --------- |
+| ❌ ERROR   | Red       |
+| ⚠️ WARNING | Yellow    |
+| ℹ️ INFO    | Blue      |
+| 🐛 DEBUG   | Gray      |
+
+---
+
+## 🔍 Advanced Filtering
+
+- 🔎 Full-text search
+- 🎯 Level filtering
+- 📌 Match-only mode
+- ⚡ Instant filtering
+
+---
+
+## 🧠 Inline Context Expansion
+
+Expand surrounding lines around matches:
+
+- `No Context`
+- `±2`
+- `±5`
+- `±10`
+- `±20`
+
+Perfect for debugging stack traces and exceptions.
+
+---
+
+## ⏱️ Tail Mode Support
+
+View latest logs instantly:
+
+- No Limit
+- 100
+- 300
+- 500
+- 1000
+- 2000
+
+---
+
+## 📥 Filtered Download
+
+Download:
+
+- full logs
+- filtered results
+- contextual output
+
+---
+
+## 🔄 Auto Refresh Controls
+
+- Live refresh
+- Pause on scroll
+- Smart refresh handling
+- Developer-friendly UX
+
+---
+
+# 📦 Installation
+
+## ✅ Packagist (Recommended)
 
 ```bash
 composer require shaonmajumder/log-viewer
 ```
 
-### Option B: Local path repository (sister folder)
+---
 
-In your Laravel app `composer.json`:
+## 🧪 Local Development (Path Repository)
+
+Add to your Laravel app:
 
 ```json
 {
@@ -54,34 +137,54 @@ Then run:
 composer update shaonmajumder/log-viewer
 ```
 
-## Publish Config / Views
+---
+
+# ⚙️ Publish Configuration
 
 ```bash
-php artisan vendor:publish --tag=laravel-log-viewer-config
-php artisan vendor:publish --tag=laravel-log-viewer-views
+php artisan vendor:publish --tag=log-viewer-config
 ```
 
-## Default Routes
+Publish views:
 
-- `GET /laravel-log`
-- `GET /laravel-log/download`
+```bash
+php artisan vendor:publish --tag=log-viewer-views
+```
 
-These are configurable via `config/laravel-log-viewer.php`.
+---
 
-## Configuration
+# 🌐 Default Routes
 
-Published config: `config/laravel-log-viewer.php`
+| Route                   | Description     |
+| ----------------------- | --------------- |
+| `/laravel-log`          | Main log viewer |
+| `/laravel-log/download` | Download logs   |
 
-Key options:
+---
 
-- `route_prefix` (default: `laravel-log`)
-- `route_name_prefix` (default: `laravel.log.`)
-- `middleware` (default: `['web','auth']`)
-- `authorize` closure (custom access policy)
-- `layout` (base Blade layout)
-- `heading` (viewer page heading)
+# 🔧 Configuration
 
-### Example strict admin-only authorization
+Published config:
+
+```bash
+config/log-viewer.php
+```
+
+---
+
+## Important Options
+
+| Option         | Description          |
+| -------------- | -------------------- |
+| `route_prefix` | Route prefix         |
+| `middleware`   | Route middleware     |
+| `authorize`    | Custom access policy |
+| `layout`       | Blade layout         |
+| `heading`      | Viewer heading       |
+
+---
+
+# 🔐 Admin Only Example
 
 ```php
 'authorize' => static function ($user): bool {
@@ -89,39 +192,117 @@ Key options:
 },
 ```
 
-## Screenshots
+---
 
-Add your package screenshots to this repository (example path: `assets/screenshots/`) and reference them here.
-
-Example markdown:
+# 🖼️ Screenshots
 
 ```md
-![Log Viewer Main](assets/screenshots/log-viewer-main.png)
+![Main Viewer](assets/screenshots/log-viewer-main.png)
+
 ![Context Expansion](assets/screenshots/log-viewer-context.png)
-![Auto Refresh Controls](assets/screenshots/log-viewer-refresh.png)
+
+![Auto Refresh](assets/screenshots/log-viewer-refresh.png)
 ```
 
-## Usage Notes
+---
 
-- Context expansion appears when filter result mode is active.
-- `No context` shows only matched lines.
-- Download button can be wired to export full file or filtered view (package supports filtered output path).
-- Viewer reads from `storage/logs` and supports common Laravel rotation patterns.
+# 🧱 Package Structure
 
-## Security Notes
+```text
+src/
+├── Http/
+│   └── Controllers/
+│       └── LaravelLogController.php
+│
+├── LaravelLogViewerServiceProvider.php
 
-- Keep route behind authentication middleware.
-- Always enforce your own `authorize` closure for production.
-- Do not expose viewer routes publicly.
+routes/
+└── web.php
 
-## Package Structure
+config/
+└── log-viewer.php
 
-- `src/LaravelLogViewerServiceProvider.php`
-- `src/Http/Controllers/LaravelLogController.php`
-- `routes/web.php`
-- `config/laravel-log-viewer.php`
-- `resources/views/index.blade.php`
+resources/
+└── views/
+    └── index.blade.php
+```
 
-## License
+---
 
-MIT
+# 🛡️ Security Notes
+
+> ⚠️ Never expose production logs publicly.
+
+Recommended:
+
+- protect with authentication
+- enforce admin authorization
+- restrict access internally only
+
+---
+
+# 🚀 Built For
+
+✅ Production Laravel apps  
+✅ Admin panels  
+✅ DevOps dashboards  
+✅ Debugging tools  
+✅ Monitoring systems  
+✅ Internal engineering tools
+
+---
+
+# ❤️ Why This Package?
+
+Most Laravel log viewers are:
+
+- outdated
+- unsafe
+- slow
+- ugly
+- missing filtering/context tools
+
+This package focuses on:
+
+✅ Developer Experience  
+✅ Security  
+✅ Performance  
+✅ Clean UI  
+✅ Real-world production usage
+
+---
+
+# 📌 Compatibility
+
+| Framework  | Supported |
+| ---------- | --------- |
+| Laravel 9  | ✅        |
+| Laravel 10 | ✅        |
+| Laravel 11 | ✅        |
+
+| PHP Version | Supported |
+| ----------- | --------- |
+| PHP 8+      | ✅        |
+
+---
+
+# 📄 License
+
+MIT © Shaon Majumder
+
+---
+
+# ⭐ Support The Project
+
+If this package helps you:
+
+- ⭐ Star the repository
+- 🍴 Fork it
+- 🐛 Report issues
+- 🚀 Contribute improvements
+
+---
+
+<p align="center">
+    Built with ❤️ for Laravel developers
+</p>

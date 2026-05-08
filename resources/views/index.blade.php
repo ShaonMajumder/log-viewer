@@ -19,7 +19,7 @@
 <div class="card shadow mb-4">
   <div class="card-header py-2"><h5 class="m-0 font-weight-bold text-primary">{{ $heading }}</h5></div>
   <div class="card-body">
-    <form method="GET" action="{{ route(config('laravel-log-viewer.route_name_prefix', 'laravel.log.') . 'index') }}" class="mb-3">
+    <form method="GET" action="{{ route(config('log-viewer.route_name_prefix', 'laravel.log.') . 'index') }}" class="mb-3">
       <div class="input-group mb-2">
         <select name="file" class="form-control" onchange="this.form.submit()">
           @forelse($files as $file)
