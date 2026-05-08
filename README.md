@@ -214,7 +214,7 @@ src/
 │   └── Controllers/
 │       └── LaravelLogController.php
 │
-├── LaravelLogViewerServiceProvider.php
+├── LogViewerServiceProvider.php
 
 routes/
 └── web.php

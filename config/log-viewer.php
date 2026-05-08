@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 return [
     'route_prefix' => 'laravel-log',

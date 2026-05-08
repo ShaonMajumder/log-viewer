@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 use Illuminate\Support\Facades\Route;
 use Shaon\LogViewer\Http\Controllers\LaravelLogController;
