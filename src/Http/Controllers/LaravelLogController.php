@@ -49,7 +49,7 @@ class LaravelLogController extends Controller
 
         return view('log-viewer::index', [
             'layout' => config('log-viewer.layout', 'backend.layouts.app'),
-            'heading' => config('log-viewer.heading', 'প্রোডাকশন লগ'),
+            'heading' => config('log-viewer.heading', '????????? ??'),
             'files' => $files,
             'selected_file' => $selected,
             'content' => $filteredContent,
@@ -169,14 +169,16 @@ class LaravelLogController extends Controller
         return $content;
     }
 
-    private function tailLogContent(string $content, int $lines): string
+    private function highlightLogContent(string $content): string
     {
-        $allLines = preg_split('/\R/', $content) ?: [];
-        if (empty($allLines)) {
-            return $content;
+        $lines = preg_split('/\R/', $content) ?: [];
+        $htmlLines = [];
+
+        foreach ($lines as $line) {
+            $htmlLines[] = $this->renderHighlightedLine($line);
         }
 
-        return implode("\n", array_slice($allLines, -$lines));
+        return implode("\n", $htmlLines);
     }
 
     private function filterLogContent(string $content, string $search, string $level): string
@@ -213,6 +215,16 @@ class LaravelLogController extends Controller
         return 'DEFAULT';
     }
 
+    private function tailLogContent(string $content, int $lines): string
+    {
+        $allLines = preg_split('/\R/', $content) ?: [];
+        if (empty($allLines)) {
+            return $content;
+        }
+
+        return implode("\n", array_slice($allLines, -$lines));
+    }
+
     private function resolveLogFullPath(string $relativePath): string
     {
         $clean = ltrim(str_replace('..', '', $relativePath), '/\\');
@@ -226,6 +238,7 @@ class LaravelLogController extends Controller
     private function renderHighlightedLine(string $line): string
     {
         $levelClass = 'log-level-default';
+
         if (stripos($line, 'ERROR') !== false || stripos($line, '.error:') !== false) {
             $levelClass = 'log-level-error';
         } elseif (stripos($line, 'WARNING') !== false || stripos($line, '.warning:') !== false) {
