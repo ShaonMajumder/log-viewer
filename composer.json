@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "shaonmajumder/log-viewer",
   "description": "Reusable Laravel log viewer package with filtering, context expansion, and download support.",
   "type": "library",
