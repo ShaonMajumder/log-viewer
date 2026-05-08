@@ -14,5 +14,5 @@ return [
     'layout' => 'backend.layouts.app',
 
     // Full heading text shown on the viewer page.
-    'heading' => 'প্রডাকশন লগ',
+    'heading' => 'প্রোডাকশন লগ',
 ];
