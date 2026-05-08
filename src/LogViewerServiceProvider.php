@@ -1,6 +1,6 @@
 ﻿<?php
 
-namespace Robist\LaravelLogViewer;
+namespace Shaon\LogViewer;
 
 use Illuminate\Support\ServiceProvider;
 

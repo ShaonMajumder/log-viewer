@@ -1,6 +1,6 @@
 ﻿<?php
 
-namespace Robist\LaravelLogViewer\Http\Controllers;
+namespace Shaon\LogViewer\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;

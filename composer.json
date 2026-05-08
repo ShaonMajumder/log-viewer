@@ -11,13 +11,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Robist\\LaravelLogViewer\\": "src/"
+      "Shaon\\LogViewer\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Robist\\LaravelLogViewer\\LaravelLogViewerServiceProvider"
+        "Shaon\\LogViewer\\LogViewerServiceProvider"
       ]
     }
   }
