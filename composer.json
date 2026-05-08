@@ -1,0 +1,24 @@
+﻿{
+  "name": "robist/laravel-log-viewer-package",
+  "description": "Reusable Laravel log viewer package with filtering, context expansion, and download support.",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^8.0",
+    "illuminate/support": "^9.0|^10.0|^11.0",
+    "illuminate/routing": "^9.0|^10.0|^11.0",
+    "illuminate/view": "^9.0|^10.0|^11.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Robist\\LaravelLogViewer\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Robist\\LaravelLogViewer\\LaravelLogViewerServiceProvider"
+      ]
+    }
+  }
+}
