@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'route_prefix' => 'laravel-log',
+    'route_prefix' => 'log-viewer',
     'route_name_prefix' => 'laravel.log.',
     'middleware' => ['web', 'auth'],
 
@@ -14,5 +14,5 @@ return [
     'layout' => 'backend.layouts.app',
 
     // Full heading text shown on the viewer page.
-    'heading' => '????????? ??',
+    'heading' => 'প্রডাকশন লগ',
 ];
