@@ -4,7 +4,7 @@ namespace Shaon\LogViewer;
 
 use Illuminate\Support\ServiceProvider;
 
-class LaravelLogViewerServiceProvider extends ServiceProvider
+class LogViewerServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
@@ -25,3 +25,4 @@ class LaravelLogViewerServiceProvider extends ServiceProvider
         ], 'log-viewer-views');
     }
 }
+
