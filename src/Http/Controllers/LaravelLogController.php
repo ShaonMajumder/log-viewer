@@ -49,7 +49,7 @@ class LaravelLogController extends Controller
 
         return view('log-viewer::index', [
             'layout' => config('log-viewer.layout', 'backend.layouts.app'),
-            'heading' => config('log-viewer.heading', '????????? ??'),
+            'heading' => config('log-viewer.heading', 'প্রডাকশন লগ'),
             'files' => $files,
             'selected_file' => $selected,
             'content' => $filteredContent,

@@ -121,7 +121,7 @@
     </div>
     <div class="card-body">
         <form method="GET" action="{{ route(config('log-viewer.route_name_prefix', 'laravel.log.') . 'index') }}" class="mb-3">
-            <label class="mb-1 font-weight-bold">???????????? ?? ????</label>
+            <label class="mb-1 font-weight-bold">তারিখভিত্তিক লগ ফাইল</label>
             <div class="input-group">
                 <select name="file" class="form-control" onchange="this.form.submit()">
                     @forelse($files as $file)
@@ -164,10 +164,10 @@
                     <div class="col-md-2 mb-2 mb-md-0">
                         <select name="context" class="form-control">
                             <option value="0" {{ (int)($context ?? 10) === 0 ? 'selected' : '' }}>No context</option>
-                            <option value="2" {{ (int)($context ?? 10) === 2 ? 'selected' : '' }}>Context �2</option>
-                            <option value="5" {{ (int)($context ?? 10) === 5 ? 'selected' : '' }}>Context �5</option>
-                            <option value="10" {{ (int)($context ?? 10) === 10 ? 'selected' : '' }}>Context �10</option>
-                            <option value="20" {{ (int)($context ?? 10) === 20 ? 'selected' : '' }}>Context �20</option>
+                            <option value="2" {{ (int)($context ?? 10) === 2 ? 'selected' : '' }}>Context �2</option>
+                            <option value="5" {{ (int)($context ?? 10) === 5 ? 'selected' : '' }}>Context �5</option>
+                            <option value="10" {{ (int)($context ?? 10) === 10 ? 'selected' : '' }}>Context �10</option>
+                            <option value="20" {{ (int)($context ?? 10) === 20 ? 'selected' : '' }}>Context �20</option>
                         </select>
                     </div>
                     @else
@@ -186,7 +186,7 @@
                 </a>
             </div>
 
-            <small class="text-muted">???? ?????????: <code>storage/logs/laravel/YYYY-MM/laravel-YYYY-MM-DD.log</code></small>
+            <small class="text-muted">ফাইল প্যাটার্ন: <code>storage/logs/laravel/YYYY-MM/laravel-YYYY-MM-DD.log</code></small>
 
             <div class="log-live-panel mt-2">
                 <div class="row">
@@ -194,16 +194,16 @@
                         <input type="hidden" id="autoRefreshSeconds" value="0">
                     <div class="btn-group" role="group" aria-label="Auto Refresh Timer">
                         <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="0">
-                            <span class="timer-icon">?</span>Off
+                            <span class="timer-icon">⏱</span>Off
                             </button>
                             <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="5">
-                                <span class="timer-icon">?</span>5
+                                <span class="timer-icon">⏱</span>5
                             </button>
                             <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="10">
-                                <span class="timer-icon">?</span>10
+                                <span class="timer-icon">⏱</span>10
                             </button>
                         <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="30">
-                            <span class="timer-icon">?</span>30
+                            <span class="timer-icon">⏱</span>30
                         </button>
                     </div>
                     <small id="autoRefreshStatus" class="text-muted d-block mt-2"></small>
@@ -232,7 +232,7 @@
                                 <small class="log-match-line"></small>
                                 @if((int)($context ?? 10) > 0)
                                 <button type="button" class="btn btn-sm btn-outline-info js-toggle-context" data-target="{{ $entry['id'] }}">
-                                    Show �{{ (int)($context ?? 10) }} lines
+                                    Show �{{ (int)($context ?? 10) }} lines
                                 </button>
                                 @endif
                             </div>
@@ -360,8 +360,8 @@
                     card.classList.toggle('is-expanded', isHidden);
                 }
                 btn.textContent = isHidden
-                    ? 'Hide �{{ (int)($context ?? 10) }} lines'
-                    : 'Show �{{ (int)($context ?? 10) }} lines';
+                    ? 'Hide �{{ (int)($context ?? 10) }} lines'
+                    : 'Show �{{ (int)($context ?? 10) }} lines';
             });
         });
 
