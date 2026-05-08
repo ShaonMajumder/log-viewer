@@ -1,4 +1,4 @@
-﻿# robist/laravel-log-viewer-package
+﻿# shaonmajumder/log-viewer
 
 Reusable Laravel log viewer package extracted from `gcc_v4`.
 
@@ -15,7 +15,7 @@ In your Laravel app `composer.json`:
     }
   ],
   "require": {
-    "robist/laravel-log-viewer-package": "*@dev"
+    "shaonmajumder/log-viewer": "*@dev"
   }
 }
 ```
@@ -23,7 +23,7 @@ In your Laravel app `composer.json`:
 Then run:
 
 ```bash
-composer update robist/laravel-log-viewer-package
+composer update shaonmajumder/log-viewer
 php artisan vendor:publish --tag=laravel-log-viewer-config
 ```
 
