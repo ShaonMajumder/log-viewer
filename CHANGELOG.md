@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.0.29 - 2026-05-10
+### Added
+- N/A
+
+### Changed
+- Centralized log-content line splitting through a dedicated helper.
+
+### Fixed
+- Preserved UTF-8/Bangla log lines by splitting only on real file line endings instead of Unicode newline classes.
+
 ## v0.0.28 - 2026-05-09
 ### Added
 - N/A

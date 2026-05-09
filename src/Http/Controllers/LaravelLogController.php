@@ -310,7 +310,7 @@ class LaravelLogController extends Controller
 
     private function tailLogContent(string $content, int $lines): string
     {
-        $allLines = preg_split('/\R/', $content) ?: [];
+        $allLines = $this->splitLogLines($content);
         if (empty($allLines)) {
             return $content;
         }
@@ -320,7 +320,7 @@ class LaravelLogController extends Controller
 
     private function filterLogContent(string $content, string $search, string $level): string
     {
-        $lines = preg_split('/\R/', $content) ?: [];
+        $lines = $this->splitLogLines($content);
         $search = Str::lower($search);
         $filteredLines = [];
 
@@ -364,7 +364,7 @@ class LaravelLogController extends Controller
 
     private function highlightLogContent(string $content): string
     {
-        $lines = preg_split('/\R/', $content) ?: [];
+        $lines = $this->splitLogLines($content);
         if (empty($lines)) {
             return '';
         }
@@ -398,13 +398,18 @@ class LaravelLogController extends Controller
             . '</div></div>';
     }
 
+    private function splitLogLines(string $content): array
+    {
+        return preg_split("/\r\n|\n|\r/", $content) ?: [];
+    }
+
     private function buildMatchedEntries(string $content, string $search, string $level, int $contextSize, bool $filtersActive): array
     {
         if (!$filtersActive) {
             return [];
         }
 
-        $lines = preg_split('/\R/', $content) ?: [];
+        $lines = $this->splitLogLines($content);
         if (empty($lines)) {
             return [];
         }
