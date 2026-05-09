@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.0.24 - 2026-05-09
+### Added
+- N/A
+
+### Changed
+- Default middleware changed to `['web']` to avoid premature auth-middleware redirects in custom session auth setups.
+
+### Fixed
+- `/log-viewer` access now relies on package auth checks (with session fallback) so logged-in custom-session users are not redirected away before controller authorization runs.
+
 ## v0.0.23 - 2026-05-09
 ### Added
 - Added authenticated-session fallback detection for custom auth flows.
