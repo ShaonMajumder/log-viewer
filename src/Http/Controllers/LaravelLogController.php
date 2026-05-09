@@ -124,27 +124,31 @@ class LaravelLogController extends Controller
         $authorize = config('log-viewer.authorize');
 
         if ($authRequired && !$user) {
-            return $this->handleUnauthorized();
+            return $this->handleUnauthorized($authRequired);
         }
 
         if (!empty($allowedEmails)) {
             $currentEmail = Str::lower(trim((string) ($user->email ?? '')));
             if ($currentEmail === '' || !in_array($currentEmail, $allowedEmails, true)) {
-                return $this->handleUnauthorized();
+                return $this->handleUnauthorized($authRequired);
             }
         }
 
         if (is_callable($authorize) && !$authorize($user)) {
-            return $this->handleUnauthorized();
+            return $this->handleUnauthorized($authRequired);
         }
 
         return null;
     }
 
-    private function handleUnauthorized(): ?RedirectResponse
+    private function handleUnauthorized(bool $authRequired): ?RedirectResponse
     {
-        $action = (string) config('log-viewer.unauthorized_action', 'abort');
+        if (!$authRequired) {
+            return null;
+        }
 
+        $action = (string) config('log-viewer.unauthorized_action', 'abort');
+        
         if ($action === 'redirect') {
             $target = (string) config('log-viewer.unauthorized_redirect_to', '/');
 

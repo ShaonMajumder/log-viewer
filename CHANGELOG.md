@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.0.10 - 2026-05-09
+### Added
+- Package-provided base layout: `log-viewer::layouts.app` for standalone rendering.
+
+### Changed
+- Default `layout` config now uses package layout (`log-viewer::layouts.app`) instead of app-specific `backend.layouts.app`.
+- Unauthorized handler now receives `authRequired` and bypasses deny action when auth is disabled.
+
+### Fixed
+- Prevented guest-mode crashes in apps whose global backend layouts assume authenticated users.
+
 ## v0.0.9 - 2026-05-09
 ### Added
 - N/A

@@ -23,7 +23,7 @@ return [
     },
 
     // The base layout used by the package view.
-    'layout' => 'backend.layouts.app',
+    'layout' => 'log-viewer::layouts.app',
 
     // Full heading text shown on the viewer page.
     'heading' => 'প্রোডাকশন লগ',
