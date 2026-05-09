@@ -43,7 +43,18 @@
 .log-match-card{ border:1px solid var(--lv-border); border-radius:.4rem; margin-bottom:.5rem; padding:.45rem .6rem; background:var(--lv-surface-soft); }
 .log-pre{ white-space:pre-wrap;word-break:break-word;max-height:70vh;overflow:auto;margin:0;color:var(--lv-text);font-size:14px;line-height:1.6;font-weight:500;font-family:Consolas,'Courier New',monospace; }
 .theme-select{ max-width:170px; }
-.mode-toggle{ margin-left:.5rem; }
+.mode-toggle{
+  margin-left:.5rem;
+  width:38px;
+  height:38px;
+  padding:0;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  line-height:1;
+}
 </style>
 
 <div id="logViewerShell" class="log-viewer-shell" data-theme="ink-dark">
@@ -55,7 +66,7 @@
         <select id="themePicker" class="form-control form-control-sm theme-select">
           <option value="ink">Ink</option><option value="graphite">Graphite</option><option value="forest">Forest</option>
         </select>
-        <button type="button" id="modeToggle" class="btn btn-sm btn-outline-primary mode-toggle">Switch to Light</button>
+        <button type="button" id="modeToggle" class="btn btn-sm btn-outline-primary mode-toggle" title="Switch theme mode" aria-label="Switch theme mode">🌙</button>
       </div>
     </div>
     <div class="card-body">
@@ -166,7 +177,8 @@
     const family = normFamily(f), mode = normMode(m);
     shell.setAttribute('data-theme', family + '-' + mode);
     picker.value = family;
-    modeToggle.textContent = mode === 'dark' ? 'Switch to Light' : 'Switch to Dark';
+    modeToggle.textContent = mode === 'dark' ? '🌙' : '☀️';
+    modeToggle.setAttribute('title', mode === 'dark' ? 'Dark mode active' : 'Light mode active');
     localStorage.setItem(themeStorageKey, family);
     localStorage.setItem(modeStorageKey, mode);
   }

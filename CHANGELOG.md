@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.0.14 - 2026-05-09
+### Added
+- Polished icon-based mode switch button for theme mode toggle.
+
+### Changed
+- Replaced text toggle button with compact sun/moon icon control.
+- Improved toggle button sizing, alignment, and accessibility labels.
+
+### Fixed
+- Better visual consistency with professional/live dashboard UI.
+
 ## v0.0.13 - 2026-05-09
 ### Added
 - Feature parity controls in package UI:
@@ -39,24 +50,3 @@
 
 ### Fixed
 - Restored missing `highlightLogContent()` method to prevent `BadMethodCallException`.
-
-## v0.0.10 - 2026-05-09
-### Added
-- Package-provided base layout: `log-viewer::layouts.app` for standalone rendering.
-
-### Changed
-- Default `layout` config now uses package layout (`log-viewer::layouts.app`) instead of app-specific `backend.layouts.app`.
-- Unauthorized handler now receives `authRequired` and bypasses deny action when auth is disabled.
-
-### Fixed
-- Prevented guest-mode crashes in apps whose global backend layouts assume authenticated users.
-
-## v0.0.9 - 2026-05-09
-### Added
-- N/A
-
-### Changed
-- Default `middleware` in `config/log-viewer.php` is now `['web', 'auth']`.
-
-### Fixed
-- Restored authenticated-by-default behavior for package routes.
