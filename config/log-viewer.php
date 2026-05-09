@@ -15,10 +15,10 @@ return [
     'allowed_emails' => [],
 
     // How to handle unauthorized access: 'abort' (403) or 'redirect'.
-    'unauthorized_action' => 'abort',
+    'unauthorized_action' => 'redirect',
 
     // Redirect target when unauthorized_action is 'redirect'.
-    'unauthorized_redirect_to' => '/',
+    'unauthorized_redirect_to' => '/login',
 
     // Return true to allow the current user.
     'authorize' => static function ($user): bool {

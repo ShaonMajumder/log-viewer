@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.0.21 - 2026-05-09
+### Added
+- N/A
+
+### Changed
+- Default unauthorized behavior now redirects to login:
+  - `unauthorized_action` => `redirect`
+  - `unauthorized_redirect_to` => `/login`
+- Keeps login-required policy with broad logged-in-user compatibility.
+
+### Fixed
+- Default UX now matches expected behavior:
+  - guest users are redirected to login
+  - logged-in users can access `/log-viewer`
+
 ## v0.0.20 - 2026-05-09
 ### Added
 - Extended custom session auth compatibility:
@@ -11,14 +26,3 @@
 
 ### Fixed
 - Prevented false 403 for logged-in users in non-standard session auth implementations.
-
-## v0.0.19 - 2026-05-09
-### Added
-- Session-based fallback user resolution for custom login flows (`user_id`, `auth_user_id`, `login_user_id`, `id`).
-
-### Changed
-- Default middleware set to `['web']` while keeping `auth_required => true`.
-- Login enforcement now relies on package access checks to avoid redirect loops in apps with non-standard auth middleware behavior.
-
-### Fixed
-- Prevented false 403 for logged-in users in custom session-auth applications.
