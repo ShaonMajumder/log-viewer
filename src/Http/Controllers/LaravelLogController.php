@@ -166,6 +166,17 @@ class LaravelLogController extends Controller
             // Fallback for custom login flows: resolve user from session IDs.
             $session = request()->session();
             if ($session) {
+                // Some apps store user payload directly in session.
+                foreach (['user', 'user_info', 'auth_user'] as $payloadKey) {
+                    $payload = $session->get($payloadKey);
+                    if (is_object($payload)) {
+                        return $payload;
+                    }
+                    if (is_array($payload) && !empty($payload)) {
+                        return (object) $payload;
+                    }
+                }
+
                 $sessionKeys = ['user_id', 'auth_user_id', 'login_user_id', 'id'];
                 $userId = null;
                 foreach ($sessionKeys as $key) {
@@ -184,6 +195,16 @@ class LaravelLogController extends Controller
                             return $resolved;
                         }
                     }
+                }
+
+                // Last-resort identity fallback for legacy custom auth sessions.
+                $email = $session->get('email') ?? $session->get('user_email') ?? null;
+                $username = $session->get('user_name') ?? $session->get('username') ?? null;
+                if ($email || $username) {
+                    return (object) [
+                        'email' => $email,
+                        'user_name' => $username,
+                    ];
                 }
             }
 
