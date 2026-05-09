@@ -3,10 +3,10 @@
 return [
     'route_prefix' => 'log-viewer',
     'route_name_prefix' => 'laravel.log.',
-    'middleware' => ['web', 'auth'],
+    'middleware' => ['web'],
 
     // Require authenticated users before viewing logs.
-    'auth_required' => true,
+    'auth_required' => false,
 
     // Optional email allow-list. Empty means no email restriction.
     'allowed_emails' => [],
@@ -19,7 +19,7 @@ return [
 
     // Return true to allow the current user.
     'authorize' => static function ($user): bool {
-        return (bool) $user;
+        return true;
     },
 
     // The base layout used by the package view.

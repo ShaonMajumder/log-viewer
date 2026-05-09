@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.0.12 - 2026-05-09
+### Added
+- N/A
+
+### Changed
+- Default access configuration is now public-friendly:
+  - `middleware` default set to `['web']`
+  - `auth_required` default set to `false`
+  - `authorize` default callback now returns `true`
+
+### Fixed
+- Avoid default redirect/deny behavior in environments where auth middleware is not desired.
+
 ## v0.0.11 - 2026-05-09
 ### Added
 - Safe current-user resolver to avoid auth/hash container failures during access checks.
