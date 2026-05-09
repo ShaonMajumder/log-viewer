@@ -115,7 +115,7 @@ class LaravelLogController extends Controller
 
     private function ensureAccess(): ?RedirectResponse
     {
-        $user = Auth::user();
+        $user = $this->resolveCurrentUserSafely();
         $authRequired = (bool) config('log-viewer.auth_required', true);
         $allowedEmails = array_values(array_filter(array_map(
             static fn ($email) => Str::lower(trim((string) $email)),
@@ -139,6 +139,19 @@ class LaravelLogController extends Controller
         }
 
         return null;
+    }
+
+    private function resolveCurrentUserSafely()
+    {
+        try {
+            if (!app()->bound('auth')) {
+                return null;
+            }
+
+            return Auth::user();
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     private function handleUnauthorized(bool $authRequired): ?RedirectResponse
@@ -263,6 +276,21 @@ class LaravelLogController extends Controller
         }
 
         return storage_path('logs/' . $clean);
+    }
+
+    private function highlightLogContent(string $content): string
+    {
+        $lines = preg_split('/\R/', $content) ?: [];
+        if (empty($lines)) {
+            return '';
+        }
+
+        $htmlLines = [];
+        foreach ($lines as $line) {
+            $htmlLines[] = $this->renderHighlightedLine($line);
+        }
+
+        return implode("\n", $htmlLines);
     }
 
     private function renderHighlightedLine(string $line): string

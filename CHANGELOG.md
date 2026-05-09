@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.0.11 - 2026-05-09
+### Added
+- Safe current-user resolver to avoid auth/hash container failures during access checks.
+
+### Changed
+- `ensureAccess()` now resolves current user through a guarded helper instead of direct `Auth::user()`.
+
+### Fixed
+- Restored missing `highlightLogContent()` method to prevent `BadMethodCallException`.
+
 ## v0.0.10 - 2026-05-09
 ### Added
 - Package-provided base layout: `log-viewer::layouts.app` for standalone rendering.
