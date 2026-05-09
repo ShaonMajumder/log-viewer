@@ -190,9 +190,45 @@ config/log-viewer.php
 | -------------- | -------------------- |
 | `route_prefix` | Route prefix         |
 | `middleware`   | Route middleware     |
+| `auth_required` | Require logged-in user |
+| `allowed_emails` | Optional email allow-list |
+| `unauthorized_action` | `abort` (403) or `redirect` |
+| `unauthorized_redirect_to` | Redirect target path |
 | `authorize`    | Custom access policy |
 | `layout`       | Blade layout         |
 | `heading`      | Viewer heading       |
+
+---
+
+# 🔒 Access Control Examples
+
+Allow only specific emails:
+
+```php
+'allowed_emails' => ['dev1@example.com', 'dev2@example.com'],
+```
+
+Use `403` instead of redirect when unauthorized:
+
+```php
+'unauthorized_action' => 'abort',
+```
+
+Redirect unauthorized users to home:
+
+```php
+'unauthorized_action' => 'redirect',
+'unauthorized_redirect_to' => '/',
+```
+
+Allow viewing without auth/admin guard (internal trusted environments only):
+
+```php
+'middleware' => ['web'],
+'auth_required' => false,
+'allowed_emails' => [],
+'authorize' => static fn ($user): bool => true,
+```
 
 ---
 

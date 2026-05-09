@@ -2,6 +2,7 @@
 
 namespace Shaon\LogViewer\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -11,7 +12,10 @@ class LaravelLogController extends Controller
 {
     public function index()
     {
-        $this->ensureAccess();
+        $access = $this->ensureAccess();
+        if ($access instanceof RedirectResponse) {
+            return $access;
+        }
 
         $files = $this->discoverLogFiles();
         $selected = (string) request()->query('file', '');
@@ -65,7 +69,10 @@ class LaravelLogController extends Controller
 
     public function download()
     {
-        $this->ensureAccess();
+        $access = $this->ensureAccess();
+        if ($access instanceof RedirectResponse) {
+            return $access;
+        }
 
         $relativePath = (string) request()->query('file', '');
         $search = trim((string) request()->query('q', ''));
@@ -106,14 +113,45 @@ class LaravelLogController extends Controller
         ]);
     }
 
-    private function ensureAccess(): void
+    private function ensureAccess(): ?RedirectResponse
     {
         $user = Auth::user();
+        $authRequired = (bool) config('log-viewer.auth_required', true);
+        $allowedEmails = array_values(array_filter(array_map(
+            static fn ($email) => Str::lower(trim((string) $email)),
+            (array) config('log-viewer.allowed_emails', [])
+        )));
         $authorize = config('log-viewer.authorize');
 
-        if (is_callable($authorize) && !$authorize($user)) {
-            abort(403, 'Unauthorized to view Laravel logs.');
+        if ($authRequired && !$user) {
+            return $this->handleUnauthorized();
         }
+
+        if (!empty($allowedEmails)) {
+            $currentEmail = Str::lower(trim((string) ($user->email ?? '')));
+            if ($currentEmail === '' || !in_array($currentEmail, $allowedEmails, true)) {
+                return $this->handleUnauthorized();
+            }
+        }
+
+        if (is_callable($authorize) && !$authorize($user)) {
+            return $this->handleUnauthorized();
+        }
+
+        return null;
+    }
+
+    private function handleUnauthorized(): ?RedirectResponse
+    {
+        $action = (string) config('log-viewer.unauthorized_action', 'abort');
+
+        if ($action === 'redirect') {
+            $target = (string) config('log-viewer.unauthorized_redirect_to', '/');
+
+            return redirect()->to($target !== '' ? $target : '/');
+        }
+
+        abort(403, 'Unauthorized to view Laravel logs.');
     }
 
     private function discoverLogFiles(): array

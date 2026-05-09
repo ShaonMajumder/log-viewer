@@ -3,7 +3,19 @@
 return [
     'route_prefix' => 'log-viewer',
     'route_name_prefix' => 'laravel.log.',
-    'middleware' => ['web', 'auth'],
+    'middleware' => ['web'],
+
+    // Require authenticated users before viewing logs.
+    'auth_required' => true,
+
+    // Optional email allow-list. Empty means no email restriction.
+    'allowed_emails' => [],
+
+    // How to handle unauthorized access: 'abort' (403) or 'redirect'.
+    'unauthorized_action' => 'abort',
+
+    // Redirect target when unauthorized_action is 'redirect'.
+    'unauthorized_redirect_to' => '/',
 
     // Return true to allow the current user.
     'authorize' => static function ($user): bool {

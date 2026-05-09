@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.0.8 - 2026-05-09
+### Added
+- New access control config options:
+  - `auth_required`
+  - `allowed_emails`
+  - `unauthorized_action`
+  - `unauthorized_redirect_to`
+- Email allow-list support via `allowed_emails`.
+- Configurable unauthorized behavior: `abort` (403) or `redirect`.
+
+### Changed
+- Default middleware changed to `['web']` so package-level access handling controls unauthorized behavior consistently.
+
+### Fixed
+- Removed forced auth-middleware redirect dependency for access control.
+
 ## v0.0.7 - 2026-05-09
 ### Added
 - N/A
