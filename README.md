@@ -48,6 +48,18 @@ Color-coded levels:
 
 ---
 
+## 🌙 Theme Support
+
+Built-in dark theme options:
+
+- `Dark Ink` (default)
+- `Dark Graphite`
+- `Dark Forest`
+
+Theme can be changed directly from the viewer header, and the selection is saved in browser `localStorage`.
+
+---
+
 ## 🔍 Advanced Filtering
 
 - 🔎 Full-text search
