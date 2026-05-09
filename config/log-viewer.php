@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'route_prefix' => 'laravel-log',
+    'route_prefix' => 'log-viewer',
     'route_name_prefix' => 'laravel.log.',
     'middleware' => ['web', 'auth'],
 

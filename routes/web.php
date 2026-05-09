@@ -16,7 +16,7 @@ try {
 }
 
 Route::middleware($middleware)
-    ->prefix(config('log-viewer.route_prefix', 'laravel-log'))
+    ->prefix(config('log-viewer.route_prefix', 'log-viewer'))
     ->as(config('log-viewer.route_name_prefix', 'laravel.log.'))
     ->group(function () {
         Route::get('/', [LaravelLogController::class, 'index'])->name('index');

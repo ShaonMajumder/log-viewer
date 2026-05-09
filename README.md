@@ -169,8 +169,8 @@ php artisan vendor:publish --tag=log-viewer-views
 
 | Route                   | Description     |
 | ----------------------- | --------------- |
-| `/laravel-log`          | Main log viewer |
-| `/laravel-log/download` | Download logs   |
+| `/log-viewer`           | Main log viewer |
+| `/log-viewer/download`  | Download logs   |
 
 ---
 

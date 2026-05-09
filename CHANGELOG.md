@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.0.7 - 2026-05-09
+### Added
+- N/A
+
+### Changed
+- Updated default route prefix from `laravel-log` to `log-viewer`.
+- Updated route fallback prefix in route registration to `log-viewer`.
+- Updated README default route examples to `/log-viewer` and `/log-viewer/download`.
+
+### Fixed
+- N/A
+
 ## v0.0.6 - 2026-05-09
 ### Added
 - Safe middleware alias filtering in routes so missing aliases (like `auth`) do not crash package bootstrap in minimal app setups.
