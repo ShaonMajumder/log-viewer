@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.0.16 - 2026-05-09
+### Added
+- N/A
+
+### Changed
+- Default package access configuration restored to authenticated mode:
+  - `middleware` => `['web', 'auth']`
+  - `auth_required` => `true`
+  - `authorize` callback requires authenticated user
+
+### Fixed
+- Prevents unauthenticated access by default on fresh installs.
+
 ## v0.0.14 - 2026-05-09
 ### Added
 - Polished icon-based mode switch button for theme mode toggle.
@@ -27,26 +40,3 @@
 
 ### Fixed
 - Missing UX controls in `/log-viewer` compared to legacy `/laravel-log` view.
-
-## v0.0.12 - 2026-05-09
-### Added
-- N/A
-
-### Changed
-- Default access configuration is now public-friendly:
-  - `middleware` default set to `['web']`
-  - `auth_required` default set to `false`
-  - `authorize` default callback now returns `true`
-
-### Fixed
-- Avoid default redirect/deny behavior in environments where auth middleware is not desired.
-
-## v0.0.11 - 2026-05-09
-### Added
-- Safe current-user resolver to avoid auth/hash container failures during access checks.
-
-### Changed
-- `ensureAccess()` now resolves current user through a guarded helper instead of direct `Auth::user()`.
-
-### Fixed
-- Restored missing `highlightLogContent()` method to prevent `BadMethodCallException`.

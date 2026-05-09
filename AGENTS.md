@@ -87,6 +87,17 @@ The goal is to keep changes secure, stable, and maintainable across all developm
   - Changed
   - Fixed
 
+## Release Automation
+- For package publish requests, use the repository release script:
+  - `./scripts/release-packagist.sh vX.Y.Z "commit message"`
+- Always update docs under `docs/<YYYY-MM-DD>/` and `CHANGELOG.md` before running the release script.
+- Release flow must include:
+  - commit to `main`
+  - push `main`
+  - create semantic tag `vX.Y.Z`
+  - push tag to origin
+- After tag push, remind maintainer to trigger Packagist manual update if webhook is delayed.
+
 ## Pull Request Checklist
 Before merging, confirm:
 - [ ] Security checks preserved or improved.
