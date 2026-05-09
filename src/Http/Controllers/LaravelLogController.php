@@ -117,6 +117,7 @@ class LaravelLogController extends Controller
     {
         $user = $this->resolveCurrentUserSafely();
         $hasSessionAuth = $this->hasAuthenticatedSessionHint();
+        $usesAuthMiddleware = $this->routeUsesAuthMiddleware();
         $isAuthenticated = $user !== null || $hasSessionAuth;
         $authRequired = (bool) config('log-viewer.auth_required', true);
         $allowedEmails = array_values(array_filter(array_map(
@@ -125,13 +126,15 @@ class LaravelLogController extends Controller
         )));
         $authorize = config('log-viewer.authorize');
 
-        if ($authRequired && !$isAuthenticated) {
+        // Align with common Laravel log-viewer behavior: if route auth middleware is present,
+        // trust middleware as the primary gate and avoid false negatives from custom user resolvers.
+        if ($authRequired && !$isAuthenticated && !$usesAuthMiddleware) {
             return $this->handleUnauthorized($authRequired);
         }
 
         // In custom auth/session flows, we may have a valid session but no resolved user model.
         // In that case, skip user-object checks and allow access when auth is otherwise satisfied.
-        if ($user === null && $isAuthenticated) {
+        if ($user === null && ($isAuthenticated || ($authRequired && $usesAuthMiddleware))) {
             return null;
         }
 
@@ -147,6 +150,26 @@ class LaravelLogController extends Controller
         }
 
         return null;
+    }
+
+    private function routeUsesAuthMiddleware(): bool
+    {
+        try {
+            $middlewares = (array) config('log-viewer.middleware', []);
+            foreach ($middlewares as $middleware) {
+                if (!is_string($middleware)) {
+                    continue;
+                }
+
+                if ($middleware === 'auth' || Str::startsWith($middleware, 'auth:')) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
     private function resolveCurrentUserSafely()
@@ -226,6 +249,16 @@ class LaravelLogController extends Controller
     private function hasAuthenticatedSessionHint(): bool
     {
         try {
+            if (app()->bound('auth')) {
+                try {
+                    if (Auth::check()) {
+                        return true;
+                    }
+                } catch (\Throwable $e) {
+                    // Continue with session-based heuristics.
+                }
+            }
+
             if (!request()->hasSession()) {
                 return false;
             }
@@ -238,6 +271,14 @@ class LaravelLogController extends Controller
             // Laravel auth stores guard login entries like: login_web_<hash>
             foreach ($session->all() as $key => $value) {
                 if (is_string($key) && Str::startsWith($key, 'login_') && !empty($value)) {
+                    return true;
+                }
+            }
+
+            // Common custom-auth identifiers used in legacy apps.
+            foreach (['user_id', 'auth_user_id', 'login_user_id', 'id', 'email', 'user_email', 'user_name', 'username'] as $key) {
+                $value = $session->get($key);
+                if ($value !== null && $value !== '') {
                     return true;
                 }
             }

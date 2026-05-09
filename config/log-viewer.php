@@ -22,7 +22,7 @@ return [
 
     // Return true to allow the current user.
     'authorize' => static function ($user): bool {
-        return (bool) $user;
+        return true;
     },
 
     // The base layout used by the package view.

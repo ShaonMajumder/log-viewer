@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.0.26 - 2026-05-09
+### Added
+- Added middleware-aware auth detection in access control flow.
+
+### Changed
+- Authorization flow is now middleware-first (aligned with common Laravel log-viewer behavior).
+- Default `authorize` callback now returns `true` to avoid blocking valid logged-in sessions in custom auth setups.
+
+### Fixed
+- Prevented logged-in users from being redirected/denied due to `Auth::user()` resolver mismatch when `auth` middleware is already guarding the route.
+
+## v0.0.25 - 2026-05-09
+### Added
+- Added broader custom session authentication key detection (`user_id`, `email`, `username`, etc.).
+
+### Changed
+- Access check now also uses `Auth::check()` when available before session heuristics.
+
+### Fixed
+- Reduced false redirects for logged-in users in non-standard Laravel auth/session implementations.
+
 ## v0.0.24 - 2026-05-09
 ### Added
 - N/A

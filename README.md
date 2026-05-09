@@ -230,6 +230,8 @@ Allow viewing without auth/admin guard (internal trusted environments only):
 'authorize' => static fn ($user): bool => true,
 ```
 
+Default behavior is middleware-first (similar to common Laravel log-viewers): when `auth` middleware is configured, access is primarily enforced by middleware and package-level checks avoid false denials in custom auth/session setups.
+
 ---
 
 # 🔐 Admin Only Example
