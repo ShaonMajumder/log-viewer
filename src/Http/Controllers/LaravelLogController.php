@@ -117,59 +117,13 @@ class LaravelLogController extends Controller
     {
         $user = $this->resolveCurrentUserSafely();
         $hasSessionAuth = $this->hasAuthenticatedSessionHint();
-        $usesAuthMiddleware = $this->routeUsesAuthMiddleware();
         $isAuthenticated = $user !== null || $hasSessionAuth;
-        $authRequired = (bool) config('log-viewer.auth_required', true);
-        $allowedEmails = array_values(array_filter(array_map(
-            static fn ($email) => Str::lower(trim((string) $email)),
-            (array) config('log-viewer.allowed_emails', [])
-        )));
-        $authorize = config('log-viewer.authorize');
 
-        // Align with common Laravel log-viewer behavior: if route auth middleware is present,
-        // trust middleware as the primary gate and avoid false negatives from custom user resolvers.
-        if ($authRequired && !$isAuthenticated && !$usesAuthMiddleware) {
-            return $this->handleUnauthorized($authRequired);
-        }
-
-        // In custom auth/session flows, we may have a valid session but no resolved user model.
-        // In that case, skip user-object checks and allow access when auth is otherwise satisfied.
-        if ($user === null && ($isAuthenticated || ($authRequired && $usesAuthMiddleware))) {
-            return null;
-        }
-
-        if (!empty($allowedEmails)) {
-            $currentEmail = Str::lower(trim((string) ($user->email ?? '')));
-            if ($currentEmail === '' || !in_array($currentEmail, $allowedEmails, true)) {
-                return $this->handleUnauthorized($authRequired);
-            }
-        }
-
-        if (is_callable($authorize) && !$authorize($user)) {
-            return $this->handleUnauthorized($authRequired);
+        if (!$isAuthenticated) {
+            return $this->handleUnauthorized();
         }
 
         return null;
-    }
-
-    private function routeUsesAuthMiddleware(): bool
-    {
-        try {
-            $middlewares = (array) config('log-viewer.middleware', []);
-            foreach ($middlewares as $middleware) {
-                if (!is_string($middleware)) {
-                    continue;
-                }
-
-                if ($middleware === 'auth' || Str::startsWith($middleware, 'auth:')) {
-                    return true;
-                }
-            }
-
-            return false;
-        } catch (\Throwable $e) {
-            return false;
-        }
     }
 
     private function resolveCurrentUserSafely()
@@ -185,8 +139,8 @@ class LaravelLogController extends Controller
                 return null;
             }
 
-            // Guard can be configured for apps that do not authenticate on default guard.
-            $guard = (string) config('log-viewer.auth_guard', config('auth.defaults.guard', 'web'));
+            // Resolve user from framework default guard first.
+            $guard = (string) config('auth.defaults.guard', 'web');
             if ($guard !== '') {
                 $guardUser = Auth::guard($guard)->user();
                 if ($guardUser) {
@@ -289,27 +243,16 @@ class LaravelLogController extends Controller
         }
     }
 
-    private function handleUnauthorized(bool $authRequired): ?RedirectResponse
+    private function handleUnauthorized(): ?RedirectResponse
     {
-        if (!$authRequired) {
-            return null;
+        $target = '/login';
+        $intended = request()->fullUrl();
+
+        if (request()->hasSession()) {
+            request()->session()->put('url.intended', $intended);
         }
 
-        $action = (string) config('log-viewer.unauthorized_action', 'abort');
-        
-        if ($action === 'redirect') {
-            $target = (string) config('log-viewer.unauthorized_redirect_to', '/');
-            $target = $target !== '' ? $target : '/';
-            $intended = request()->fullUrl();
-
-            if (request()->hasSession()) {
-                request()->session()->put('url.intended', $intended);
-            }
-
-            return redirect()->to($target);
-        }
-
-        abort(403, 'Unauthorized to view Laravel logs.');
+        return redirect()->to($target);
     }
 
     private function discoverLogFiles(): array

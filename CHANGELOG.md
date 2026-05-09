@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.0.27 - 2026-05-09
+### Added
+- N/A
+
+### Changed
+- Removed package access-control config dependencies (`auth_required`, `auth_guard`, `authorize`, `unauthorized_action`, `unauthorized_redirect_to`) from default config.
+- Access behavior is now fixed in package code: guests redirect to `/login`, logged-in users can access logs.
+
+### Fixed
+- Eliminated redirect/403 inconsistencies caused by app-specific auth config drift.
+
 ## v0.0.26 - 2026-05-09
 ### Added
 - Added middleware-aware auth detection in access control flow.

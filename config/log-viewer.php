@@ -5,26 +5,6 @@ return [
     'route_name_prefix' => 'laravel.log.',
     'middleware' => ['web'],
 
-    // Guard used to resolve authenticated user context.
-    'auth_guard' => 'web',
-
-    // Require authenticated users before viewing logs.
-    'auth_required' => true,
-
-    // Optional email allow-list. Empty means no email restriction.
-    'allowed_emails' => [],
-
-    // How to handle unauthorized access: 'abort' (403) or 'redirect'.
-    'unauthorized_action' => 'redirect',
-
-    // Redirect target when unauthorized_action is 'redirect'.
-    'unauthorized_redirect_to' => '/login',
-
-    // Return true to allow the current user.
-    'authorize' => static function ($user): bool {
-        return true;
-    },
-
     // The base layout used by the package view.
     'layout' => 'log-viewer::layouts.app',
 

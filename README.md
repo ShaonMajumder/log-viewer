@@ -190,57 +190,18 @@ config/log-viewer.php
 | -------------- | -------------------- |
 | `route_prefix` | Route prefix         |
 | `middleware`   | Route middleware     |
-| `auth_required` | Require logged-in user |
-| `allowed_emails` | Optional email allow-list |
-| `unauthorized_action` | `abort` (403) or `redirect` |
-| `unauthorized_redirect_to` | Redirect target path |
-| `authorize`    | Custom access policy |
 | `layout`       | Blade layout         |
 | `heading`      | Viewer heading       |
 
 ---
 
-# 🔒 Access Control Examples
+# 🔒 Access Control
 
-Allow only specific emails:
+Default behavior is fixed: only logged-in users can access `/log-viewer`.
 
-```php
-'allowed_emails' => ['dev1@example.com', 'dev2@example.com'],
-```
-
-Use `403` instead of redirect when unauthorized:
-
-```php
-'unauthorized_action' => 'abort',
-```
-
-Redirect unauthorized users to home:
-
-```php
-'unauthorized_action' => 'redirect',
-'unauthorized_redirect_to' => '/',
-```
-
-Allow viewing without auth/admin guard (internal trusted environments only):
-
-```php
-'middleware' => ['web'],
-'auth_required' => false,
-'allowed_emails' => [],
-'authorize' => static fn ($user): bool => true,
-```
-
-Default behavior is middleware-first (similar to common Laravel log-viewers): when `auth` middleware is configured, access is primarily enforced by middleware and package-level checks avoid false denials in custom auth/session setups.
-
----
-
-# 🔐 Admin Only Example
-
-```php
-'authorize' => static function ($user): bool {
-    return $user && (int) ($user->is_admin ?? 0) === 1;
-},
-```
+- If user is not logged in, package redirects to `/login`.
+- If user is logged in, package allows access.
+- This access rule is enforced in package controller logic and does not depend on per-project auth config toggles.
 
 ---
 
