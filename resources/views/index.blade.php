@@ -45,15 +45,25 @@
 .theme-select{ max-width:170px; }
 .mode-toggle{
   margin-left:.5rem;
-  width:38px;
+  width:64px;
   height:38px;
-  padding:0;
+  padding:0 8px;
   border-radius:999px;
   display:inline-flex;
   align-items:center;
-  justify-content:center;
-  font-size:16px;
+  justify-content:space-between;
+  font-size:15px;
   line-height:1;
+}
+.mode-toggle .mode-icon{
+  opacity:.45;
+  transform:scale(.95);
+  transition:opacity .2s ease, transform .2s ease;
+}
+.mode-toggle[data-mode="dark"] .icon-moon,
+.mode-toggle[data-mode="light"] .icon-sun{
+  opacity:1;
+  transform:scale(1.05);
 }
 </style>
 
@@ -66,7 +76,7 @@
         <select id="themePicker" class="form-control form-control-sm theme-select">
           <option value="ink">Ink</option><option value="graphite">Graphite</option><option value="forest">Forest</option>
         </select>
-        <button type="button" id="modeToggle" class="btn btn-sm btn-outline-primary mode-toggle" title="Switch theme mode" aria-label="Switch theme mode">🌙</button>
+        <button type="button" id="modeToggle" class="btn btn-sm btn-outline-primary mode-toggle" title="Switch theme mode" aria-label="Switch theme mode" data-mode="dark"><span class="mode-icon icon-sun">☀️</span><span class="mode-icon icon-moon">🌙</span></button>
       </div>
     </div>
     <div class="card-body">
@@ -110,10 +120,10 @@
             <div class="col-md-5 mb-2 mb-md-0">
               <input type="hidden" id="autoRefreshSeconds" value="0">
               <div class="btn-group" role="group" aria-label="Auto Refresh Timer">
-                <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="0">Off</button>
-                <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="5">5</button>
-                <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="10">10</button>
-                <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="30">30</button>
+                <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="0">⏱ Off</button>
+                <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="5">⏱ 5</button>
+                <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="10">⏱ 10</button>
+                <button type="button" class="btn btn-outline-secondary timer-btn js-timer-btn" data-seconds="30">⏱ 30</button>
               </div>
               <small id="autoRefreshStatus" style="color:var(--lv-muted)" class="d-block mt-2"></small>
             </div>
@@ -177,7 +187,7 @@
     const family = normFamily(f), mode = normMode(m);
     shell.setAttribute('data-theme', family + '-' + mode);
     picker.value = family;
-    modeToggle.textContent = mode === 'dark' ? '🌙' : '☀️';
+    modeToggle.setAttribute('data-mode', mode);
     modeToggle.setAttribute('title', mode === 'dark' ? 'Dark mode active' : 'Light mode active');
     localStorage.setItem(themeStorageKey, family);
     localStorage.setItem(modeStorageKey, mode);
