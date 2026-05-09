@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.0.17 - 2026-05-09
+### Added
+- N/A
+
+### Changed
+- Default package access is now public by default:
+  - `middleware` => `['web']`
+  - `auth_required` => `false`
+  - `authorize` callback returns `true`
+
+### Fixed
+- Removes default login requirement so `/log-viewer` is accessible to all users out of the box.
+
 ## v0.0.16 - 2026-05-09
 ### Added
 - N/A
@@ -23,20 +36,3 @@
 
 ### Fixed
 - Better visual consistency with professional/live dashboard UI.
-
-## v0.0.13 - 2026-05-09
-### Added
-- Feature parity controls in package UI:
-  - Reset all filters button
-  - Download file / filtered download button
-  - Log file pattern hint
-  - Auto-refresh timer controls (Off/5/10/30)
-  - Pause-at-scroll with saved scroll position
-  - Auto-refresh status text
-
-### Changed
-- Theme system upgraded to paired families with light/dark correspondence per family.
-- Added light/dark mode toggle button mapped to the currently selected theme family.
-
-### Fixed
-- Missing UX controls in `/log-viewer` compared to legacy `/laravel-log` view.

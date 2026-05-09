@@ -144,10 +144,26 @@ class LaravelLogController extends Controller
     private function resolveCurrentUserSafely()
     {
         try {
+            // Prefer the user attached to current request context first.
+            $requestUser = request()->user();
+            if ($requestUser) {
+                return $requestUser;
+            }
+
             if (!app()->bound('auth')) {
                 return null;
             }
 
+            // Guard can be configured for apps that do not authenticate on default guard.
+            $guard = (string) config('log-viewer.auth_guard', config('auth.defaults.guard', 'web'));
+            if ($guard !== '') {
+                $guardUser = Auth::guard($guard)->user();
+                if ($guardUser) {
+                    return $guardUser;
+                }
+            }
+
+            // Fallback to default facade user resolution.
             return Auth::user();
         } catch (\Throwable $e) {
             return null;
