@@ -163,6 +163,30 @@ class LaravelLogController extends Controller
                 }
             }
 
+            // Fallback for custom login flows: resolve user from session IDs.
+            $session = request()->session();
+            if ($session) {
+                $sessionKeys = ['user_id', 'auth_user_id', 'login_user_id', 'id'];
+                $userId = null;
+                foreach ($sessionKeys as $key) {
+                    $value = $session->get($key);
+                    if ($value !== null && $value !== '') {
+                        $userId = $value;
+                        break;
+                    }
+                }
+
+                if ($userId !== null) {
+                    $modelClass = (string) config('auth.providers.users.model', '');
+                    if ($modelClass !== '' && class_exists($modelClass) && method_exists($modelClass, 'query')) {
+                        $resolved = $modelClass::query()->find($userId);
+                        if ($resolved) {
+                            return $resolved;
+                        }
+                    }
+                }
+            }
+
             // Fallback to default facade user resolution.
             return Auth::user();
         } catch (\Throwable $e) {
