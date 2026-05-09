@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.0.22 - 2026-05-09
+### Added
+- Sets `url.intended` before unauthorized login redirect.
+
+### Changed
+- Unauthorized redirect flow now preserves target log-viewer URL through login.
+
+### Fixed
+- Prevented post-login fallback to dashboard when user initially requested `/log-viewer`.
+
 ## v0.0.21 - 2026-05-09
 ### Added
 - N/A
@@ -14,15 +24,3 @@
 - Default UX now matches expected behavior:
   - guest users are redirected to login
   - logged-in users can access `/log-viewer`
-
-## v0.0.20 - 2026-05-09
-### Added
-- Extended custom session auth compatibility:
-  - supports session payload keys `user`, `user_info`, `auth_user`
-  - supports fallback identity from `email`/`user_name` session keys
-
-### Changed
-- Improved user resolution logic for legacy/custom auth apps where `Auth::user()` is null.
-
-### Fixed
-- Prevented false 403 for logged-in users in non-standard session auth implementations.

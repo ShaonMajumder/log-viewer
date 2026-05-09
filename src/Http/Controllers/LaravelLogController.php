@@ -225,8 +225,14 @@ class LaravelLogController extends Controller
         
         if ($action === 'redirect') {
             $target = (string) config('log-viewer.unauthorized_redirect_to', '/');
+            $target = $target !== '' ? $target : '/';
+            $intended = request()->fullUrl();
 
-            return redirect()->to($target !== '' ? $target : '/');
+            if (request()->hasSession()) {
+                request()->session()->put('url.intended', $intended);
+            }
+
+            return redirect()->to($target);
         }
 
         abort(403, 'Unauthorized to view Laravel logs.');
