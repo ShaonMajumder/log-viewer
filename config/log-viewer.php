@@ -3,7 +3,7 @@
 return [
     'route_prefix' => 'log-viewer',
     'route_name_prefix' => 'laravel.log.',
-    'middleware' => ['web'],
+    'middleware' => ['web', 'auth'],
 
     // Guard used to resolve authenticated user context.
     'auth_guard' => 'web',

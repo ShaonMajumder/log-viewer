@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.0.23 - 2026-05-09
+### Added
+- Added authenticated-session fallback detection for custom auth flows.
+
+### Changed
+- Default middleware is now `['web', 'auth']` for login-required access.
+
+### Fixed
+- Prevented false `403 Unauthorized` when users are logged in but `Auth::user()` is unresolved in custom session setups.
+
 ## v0.0.22 - 2026-05-09
 ### Added
 - Sets `url.intended` before unauthorized login redirect.

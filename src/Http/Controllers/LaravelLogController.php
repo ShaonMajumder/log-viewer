@@ -116,6 +116,8 @@ class LaravelLogController extends Controller
     private function ensureAccess(): ?RedirectResponse
     {
         $user = $this->resolveCurrentUserSafely();
+        $hasSessionAuth = $this->hasAuthenticatedSessionHint();
+        $isAuthenticated = $user !== null || $hasSessionAuth;
         $authRequired = (bool) config('log-viewer.auth_required', true);
         $allowedEmails = array_values(array_filter(array_map(
             static fn ($email) => Str::lower(trim((string) $email)),
@@ -123,8 +125,14 @@ class LaravelLogController extends Controller
         )));
         $authorize = config('log-viewer.authorize');
 
-        if ($authRequired && !$user) {
+        if ($authRequired && !$isAuthenticated) {
             return $this->handleUnauthorized($authRequired);
+        }
+
+        // In custom auth/session flows, we may have a valid session but no resolved user model.
+        // In that case, skip user-object checks and allow access when auth is otherwise satisfied.
+        if ($user === null && $isAuthenticated) {
+            return null;
         }
 
         if (!empty($allowedEmails)) {
@@ -212,6 +220,31 @@ class LaravelLogController extends Controller
             return Auth::user();
         } catch (\Throwable $e) {
             return null;
+        }
+    }
+
+    private function hasAuthenticatedSessionHint(): bool
+    {
+        try {
+            if (!request()->hasSession()) {
+                return false;
+            }
+
+            $session = request()->session();
+            if (!$session || !$session->isStarted()) {
+                return false;
+            }
+
+            // Laravel auth stores guard login entries like: login_web_<hash>
+            foreach ($session->all() as $key => $value) {
+                if (is_string($key) && Str::startsWith($key, 'login_') && !empty($value)) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (\Throwable $e) {
+            return false;
         }
     }
 
