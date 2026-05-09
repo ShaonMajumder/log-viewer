@@ -3,7 +3,7 @@
 return [
     'route_prefix' => 'log-viewer',
     'route_name_prefix' => 'laravel.log.',
-    'middleware' => ['web'],
+    'middleware' => ['web', 'auth'],
 
     // Require authenticated users before viewing logs.
     'auth_required' => true,

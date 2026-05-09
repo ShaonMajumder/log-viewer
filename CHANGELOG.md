@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.0.9 - 2026-05-09
+### Added
+- N/A
+
+### Changed
+- Default `middleware` in `config/log-viewer.php` is now `['web', 'auth']`.
+
+### Fixed
+- Restored authenticated-by-default behavior for package routes.
+
 ## v0.0.8 - 2026-05-09
 ### Added
 - New access control config options:
