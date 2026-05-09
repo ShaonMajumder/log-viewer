@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.0.28 - 2026-05-09
+### Added
+- N/A
+
+### Changed
+- Default route name prefix changed from `laravel.log.` to `log.viewer.` to avoid collisions with app routes.
+- Route middleware filtering now preserves middleware groups (like `web`) instead of removing them.
+
+### Fixed
+- Prevented package route-name collision with host apps using `laravel.log.*`.
+- Fixed missing session/auth behavior caused by accidental stripping of `web` middleware group.
+
 ## v0.0.27 - 2026-05-09
 ### Added
 - N/A

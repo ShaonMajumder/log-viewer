@@ -2,7 +2,7 @@
 
 return [
     'route_prefix' => 'log-viewer',
-    'route_name_prefix' => 'laravel.log.',
+    'route_name_prefix' => 'log.viewer.',
     'middleware' => ['web'],
 
     // The base layout used by the package view.

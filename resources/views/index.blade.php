@@ -80,7 +80,7 @@
       </div>
     </div>
     <div class="card-body">
-      <form method="GET" action="{{ route(config('log-viewer.route_name_prefix', 'laravel.log.') . 'index') }}" class="mb-3">
+      <form method="GET" action="{{ route(config('log-viewer.route_name_prefix', 'log.viewer.') . 'index') }}" class="mb-3">
         <div class="input-group mb-2">
           <select name="file" class="form-control" onchange="this.form.submit()">
             @forelse($files as $file)
@@ -107,8 +107,8 @@
         </div>
 
         <div class="mt-2">
-          <a href="{{ route(config('log-viewer.route_name_prefix', 'laravel.log.') . 'index', ['file' => $selected_file, 'lines' => 0, 'context' => 10]) }}" class="btn btn-light border">Reset All Filters</a>
-          <a href="{{ route(config('log-viewer.route_name_prefix', 'laravel.log.') . 'download', ['file' => $selected_file, 'q' => ($search ?? ''), 'level' => ($level ?? 'ALL'), 'lines' => ($lines ?? 0)]) }}" class="btn btn-success ml-2">
+          <a href="{{ route(config('log-viewer.route_name_prefix', 'log.viewer.') . 'index', ['file' => $selected_file, 'lines' => 0, 'context' => 10]) }}" class="btn btn-light border">Reset All Filters</a>
+          <a href="{{ route(config('log-viewer.route_name_prefix', 'log.viewer.') . 'download', ['file' => $selected_file, 'q' => ($search ?? ''), 'level' => ($level ?? 'ALL'), 'lines' => ($lines ?? 0)]) }}" class="btn btn-success ml-2">
             {{ (($search ?? '') === '' && ($level ?? 'ALL') === 'ALL' && (int)($lines ?? 0) === 0) ? 'Download File' : 'Download Filtered View' }}
           </a>
         </div>
